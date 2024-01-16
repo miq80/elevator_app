@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:house_app/services/database_service.dart';
 import 'package:house_app/theme/theme.dart';
 import 'package:house_app/widgets/input.dart';
 
 class AddHouseButton extends StatelessWidget {
   const AddHouseButton({
     super.key,
+    required this.onHouseAdded,
   });
 
+  final VoidCallback onHouseAdded;
   Future<void> _dialogBuilder(BuildContext context) async {
     TextEditingController nameController = TextEditingController();
     TextEditingController floorsController = TextEditingController();
+    final service = DatabaseService.instance;
 
     await showDialog(
       context: context,
@@ -51,7 +55,17 @@ class AddHouseButton extends StatelessWidget {
               SizedBox(
                 height: 24,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    side: const BorderSide(color: Colors.black),
+                  ),
+                  onPressed: () async {
+                    await service.insertBuilding(
+                      nameController.text,
+                      floorsController.text,
+                    );
+                    onHouseAdded();
+                    Navigator.of(context).pop();
+                  },
                   child: const Text(
                     'Add',
                     style: TextStyles.textStyleDialogButton,

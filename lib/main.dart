@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:house_app/app.dart';
 import 'package:house_app/pages/house_page.dart';
+
 import 'package:house_app/theme/theme.dart';
 import 'package:house_app/widgets/custom_button.dart';
 import 'package:house_app/widgets/image_box.dart';
 
-void main() {
+void main() async {
   runApp(const App());
 }
 
@@ -15,7 +16,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:AppTheme.backgroundColor,
+      backgroundColor: AppTheme.backgroundColor,
       body: Stack(children: [
         Center(
           child: Column(
