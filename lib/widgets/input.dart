@@ -1,23 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:house_app/theme/theme.dart';
+import 'package:house_app/widgets/size_wrapper.dart';
 
 class InputField extends StatelessWidget {
-  const InputField({super.key, required this.fieldText});
+  const InputField({
+    key,
+    required this.fieldText,
+    required this.controller,
+    this.textFieldWidth,
+  });
 
   final String fieldText;
+  final TextEditingController controller;
+  final double? textFieldWidth;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          fieldText,
-          style: TextStyles.textStyle14,
+        SizedBox(
+          width: 115,
+          child: Text(
+            fieldText,
+            style: TextStyles.textStyle14,
+          ),
         ),
-        const Expanded(
+        ConditionalSizedBox(
+          width: textFieldWidth,
+          child: Expanded(
             child: TextField(
-          decoration: InputDecoration(fillColor: Color(0xFFE7E6E6)),
-        )),
+              style: TextStyles.textStyle14,
+              controller: controller,
+              decoration: const InputDecoration(
+                isCollapsed: true,
+                isDense: true,
+                border: InputBorder.none,
+                fillColor: AppTheme.dialogWindowInputColor,
+                filled: true,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
