@@ -1,62 +1,71 @@
 import 'package:flutter/material.dart';
+import 'package:house_app/models/house.dart';
+import 'package:house_app/services/database_service.dart';
+import 'package:house_app/theme/theme.dart';
 
 class HouseList extends StatelessWidget {
   HouseList({super.key});
 
-  final List<String> houses = ['house name 1', 'house name 2'];
-
-  static const textStyles = TextStyle(
-    fontFamily: 'Inter',
-    fontSize: 16,
-    height: 19 / 16,
-    fontWeight: FontWeight.w400,
-  );
-
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: houses.length,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 66),
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10.5),
-                margin: const EdgeInsets.only(bottom: 30),
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      const SizedBox(
-                        width: 9,
+    return FutureBuilder(
+      future: DatabaseService.instance.getBuildings(),
+      builder: (BuildContext context, AsyncSnapshot<List<House>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        }
+        return Expanded(
+          child: ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 66),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10.5),
+                    margin: const EdgeInsets.only(bottom: 30),
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 9,
+                          ),
+                          const Text(
+                            'House',
+                            style: TextStyles.textStyles16,
+                            textAlign: TextAlign.center,
+                          ),
+                          const Spacer(),
+                          Text(
+                            snapshot.data![index].name,
+                            style: TextStyles.textStyles16,
+                          ),
+                          const SizedBox(
+                            width: 40,
+                          ),
+                        ],
                       ),
-                      const Text(
-                        'House',
-                        style: textStyles,
-                        textAlign: TextAlign.center,
-                      ),
-                      const Spacer(),
-                      Text(
-                        houses[index],
-                        style: textStyles,
-                      ),
-                      const SizedBox(
-                        width: 40,
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          );
-        },
-      ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -3,11 +3,16 @@ import 'package:house_app/theme/theme.dart';
 import 'package:house_app/widgets/add_house_button.dart';
 import 'package:house_app/widgets/house_list.dart';
 
-class HousePage extends StatelessWidget {
+class HousePage extends StatefulWidget {
   HousePage({
     super.key,
   });
 
+  @override
+  State<HousePage> createState() => _HousePageState();
+}
+
+class _HousePageState extends State<HousePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +25,11 @@ class HousePage extends StatelessWidget {
               const SizedBox(
                 height: 98,
               ),
-              const AddHouseButton(),
+              AddHouseButton(
+                onHouseAdded: () {
+                  setState(() {});
+                },
+              ),
               const SizedBox(
                 height: 30,
               ),
