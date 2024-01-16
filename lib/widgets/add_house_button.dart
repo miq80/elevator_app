@@ -14,27 +14,52 @@ class AddHouseButton extends StatelessWidget {
     await showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          content: const Form(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Add house',
-                  style: TextStyles.textStyles16,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 19.5),
+          child: AlertDialog(
+            backgroundColor: AppTheme.dialogWindowColor,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+                side: BorderSide(color: Colors.black)),
+            content: Form(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'Add house',
+                    style: TextStyles.textStyles16,
+                  ),
+                  const SizedBox(
+                    height: 36,
+                  ),
+                  InputField(
+                    fieldText: 'Name',
+                    controller: nameController,
+                  ),
+                  const SizedBox(
+                    height: 19,
+                  ),
+                  InputField(
+                    fieldText: 'Floors count',
+                    controller: floorsController,
+                    textFieldWidth: 37,
+                  )
+                ],
+              ),
+            ),
+            actions: [
+              SizedBox(
+                height: 24,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Add',
+                    style: TextStyles.textStyleDialogButton,
+                  ),
                 ),
-                InputField(fieldText: 'Name'),
-                InputField(fieldText: 'Floors count')
-              ],
-            ),
+              ),
+            ],
           ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Add'),
-            ),
-          ],
         );
       },
     );
