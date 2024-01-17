@@ -52,4 +52,25 @@ class DatabaseService {
       rethrow;
     }
   }
+
+  Future<List<String>> getFloorsForBuilding(int buildingId) async {
+    final db = await database;
+    try {
+      final data = await db.query('buildings',
+          columns: ['floorsAmount'], where: 'id = ?', whereArgs: [buildingId]);
+      if (data.isNotEmpty) {
+        int floorsAmount = data.first['floorsAmount'] as int;
+        List<String> floors =
+            List.generate(floorsAmount, (index) => 'Floor ${index + 1}');
+        return floors;
+      } else {
+        print('Building with ID $buildingId not found');
+        return []; // Return an empty list or handle the absence of data as needed
+      }
+    } catch (e, t) {
+      print(e);
+      print(t);
+      rethrow;
+    }
+  }
 }
