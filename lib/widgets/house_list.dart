@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:house_app/models/house.dart';
+import 'package:house_app/pages/floors_page.dart';
 import 'package:house_app/services/database_service.dart';
 import 'package:house_app/theme/theme.dart';
 
@@ -37,7 +38,24 @@ class HouseList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () async {
+                        int buildingId = snapshot.data![index].id;
+                        List<String> floors = await DatabaseService.instance
+                            .getFloorsForBuilding(buildingId);
+
+                        if (floors.isNotEmpty) {
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FloorsPage(floors: floors),
+                            ),
+                          );
+                        } else {
+                          print(
+                              'Failed to retrieve floors for building with ID $buildingId');
+                        }
+                      },
                       child: Row(
                         children: [
                           const SizedBox(
