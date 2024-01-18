@@ -40,15 +40,18 @@ class HouseList extends StatelessWidget {
                     child: GestureDetector(
                       onTap: () async {
                         int buildingId = snapshot.data![index].id;
-                        List<String> floors = await DatabaseService.instance
+                        final response = await DatabaseService.instance
                             .getFloorsForBuilding(buildingId);
 
-                        if (floors.isNotEmpty) {
+                        if (response.$1.isNotEmpty) {
                           // ignore: use_build_context_synchronously
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => FloorsPage(floors: floors),
+                              builder: (context) => FloorsPage(
+                                floors: response.$1,
+                                houseName: response.$2,
+                              ),
                             ),
                           );
                         } else {

@@ -26,6 +26,7 @@ class DatabaseService {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,
             floorsAmount INTEGER
+            
           )
         ''');
       },
@@ -53,19 +54,22 @@ class DatabaseService {
     }
   }
 
-  Future<List<String>> getFloorsForBuilding(int buildingId) async {
+  Future<(List<String> floors, String houseName)> getFloorsForBuilding(
+      int buildingId) async {
     final db = await database;
     try {
       final data = await db.query('buildings',
-          columns: ['floorsAmount'], where: 'id = ?', whereArgs: [buildingId]);
+          columns: ['floorsAmount', 'name'],
+          where: 'id = ?',
+          whereArgs: [buildingId]);
       if (data.isNotEmpty) {
         int floorsAmount = data.first['floorsAmount'] as int;
         List<String> floors =
             List.generate(floorsAmount, (index) => 'Floor ${index + 1}');
-        return floors;
+        return (floors, data.first['name'] as String);
       } else {
         print('Building with ID $buildingId not found');
-        return []; // Return an empty list or handle the absence of data as needed
+        return (<String>[], '');
       }
     } catch (e, t) {
       print(e);
