@@ -31,7 +31,7 @@ class ElevatorReceiver : BroadcastReceiver() {
 
 
         val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(/* notificationId */ System.currentTimeMillis().toInt(), notificationBuilder.build())
+        notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
     }
 
 }

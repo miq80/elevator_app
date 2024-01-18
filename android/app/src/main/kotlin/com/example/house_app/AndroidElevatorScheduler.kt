@@ -33,15 +33,4 @@ class AndroidElevatorScheduler(
         );
 
     }
-
-    override fun cancel(item: ElevatorItem) {
-        elevatorManager.cancel(
-            PendingIntent.getBroadcast(
-                context,
-                item.hashCode(),
-                Intent(context, ElevatorReceiver::class.java),
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-        )
-    }
 }
