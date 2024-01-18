@@ -8,13 +8,21 @@ class ImageBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Container(
-        padding: const EdgeInsets.fromLTRB(11.0, 77.0, 12.0, 94.0),
+        padding: const EdgeInsets.all(1.0), 
         decoration: BoxDecoration(
           border: Border.all(
             color: AppTheme.borderColor,
           ),
         ),
-        child: const Text('any image here', style: TextStyles.textStyle24),
+        child: ClipRRect(
+          borderRadius: BorderRadius.zero, 
+          child: Image.asset(
+            'assets/cat.png',
+            width: 200,
+            height: 200,
+            fit: BoxFit.cover, 
+          ),
+        ),
       ),
     );
   }

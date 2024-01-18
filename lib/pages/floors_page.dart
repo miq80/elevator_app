@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:house_app/services/elevator_channel.dart';
 import 'package:house_app/theme/theme.dart';
 import 'package:house_app/widgets/floor_item.dart';
 
@@ -10,8 +11,10 @@ enum FloorState {
 
 class FloorsPage extends StatefulWidget {
   final List<String> floors;
+  final String houseName;
 
-  const FloorsPage({Key? key, required this.floors}) : super(key: key);
+  const FloorsPage({Key? key, required this.floors, required this.houseName})
+      : super(key: key);
 
   @override
   State<FloorsPage> createState() => _FloorsPageState();
@@ -59,6 +62,7 @@ class _FloorsPageState extends State<FloorsPage> {
     }
     targetFloor = null;
     isRunning = false;
+    ElevatorChannel.schedule(widget.houseName, currentFloor + 1);
   }
 
   Widget build(BuildContext context) {

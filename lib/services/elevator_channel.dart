@@ -1,18 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 
 class ElevatorChannel {
-  static const MethodChannel _channel =
-      MethodChannel('com.yourcompany.elevator');
+  static const MethodChannel platformChannel =
+      MethodChannel('elevator_channel');
 
-  static Future<void> sendElevatorInfo(
-      String buildingName, int currentFloor) async {
+  static Future<void> schedule(String houseName, int currentFloor) async {
+
     try {
-      await _channel.invokeMethod('sendElevatorInfo', {
-        'buildingName': buildingName,
-        'currentFloor': currentFloor,
+      await platformChannel.invokeMethod('getDataFromNative', {
+        'time':
+            DateTime.now().add(const Duration(seconds: 2)).toIso8601String(),
+        'message': 'You`re in $houseName on floor: $currentFloor'
       });
-    } catch (e) {
-      print('Error sending elevator info: $e');
+    } on PlatformException catch (e) {
+      print('Error: ${e.message}');
     }
   }
 }
